@@ -1,22 +1,17 @@
-FROM node:19 as build
-
-ENV NODE_ENV=production 
-
+FROM node:22-alpine AS builder
 WORKDIR /app
-
-COPY package.json ./
-COPY package-lock.json ./
-RUN npm install
-COPY . ./
+COPY package*.json ./
+RUN npm ci
+COPY . .
 RUN npm run build
+RUN npm prune --production
 
-
-FROM node:19-alpine3.16
-
+FROM node:22-alpine
 WORKDIR /app
-COPY --from=build /app .
-
-ENV HOST=0.0.0.0
-EXPOSE 4173
+COPY --from=builder /app/build build/
+COPY --from=builder /app/node_modules node_modules/
+COPY package.json .
+EXPOSE 3000
 VOLUME /app/content
-CMD ["npm","run", "preview","--", "--host", "0.0.0.0"]
+ENV NODE_ENV=production
+CMD [ "node", "build" ]
