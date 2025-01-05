@@ -5,12 +5,21 @@ There are great alternatives with a lot more functionality but sometimes, all yo
 
 ## Installation
 
-Run the application using NPM:
+To run the application using Docker Compose:
+```bash
+sudo docker compose up -d
+```
+
+To run the application using Docker:
+```bash
+sudo docker build -t blog .
+sudo docker run -d -p 4173:4173 -v $(pwd)/content:/app/content -e NODE_ENV=production -e HOST=0.0.0.0 blog
+```
+
+To run the application using NPM:
 ```bash
 npm run build && npm run preview
 ```
-
-TODO: Create a `Dockerfile` and `docker-compose.yml`.
 
 ## Usage
 

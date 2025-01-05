@@ -1,0 +1,11 @@
+services:
+  app:
+    build: .
+    ports:
+      - "4173:4173"
+    volumes:
+      - ./content:/app/content
+    environment:
+      - NODE_ENV=production
+      - HOST=0.0.0.0
+    restart: unless-stopped
