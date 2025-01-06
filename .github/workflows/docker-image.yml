@@ -1,0 +1,25 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag itschotsch/blog:latest
+    - name: Push the Docker image to the GitHub Container Registry
+      run: docker push ghcr.io/itschotsch/blog:latest
+      env:
+        CR_PAT: ${{ secrets.CR_PAT }}
+        DOCKER_USERNAME: ${{ github.actor }}
+        DOCKER_PASSWORD: ${{ secrets.CR_PAT }}
