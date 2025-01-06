@@ -7,19 +7,25 @@ on:
     branches: [ "master" ]
 
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
 
     steps:
     - name: Checkout
       uses: actions/checkout@v4
+
+    - name: Login to GitHub Container Registry
+      uses: docker/login-action@v3
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag itschotsch/blog:latest
+      run: docker build . --file Dockerfile --tag ghcr.io/itschotsch/blog:latest
+
     - name: Push the Docker image to the GitHub Container Registry
       run: docker push ghcr.io/itschotsch/blog:latest
-      env:
-        CR_PAT: ${{ secrets.CR_PAT }}
-        DOCKER_USERNAME: ${{ github.actor }}
-        DOCKER_PASSWORD: ${{ secrets.CR_PAT }}
