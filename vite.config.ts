@@ -6,7 +6,7 @@ export default defineConfig({
 	server: {
 		fs: {
 			allow: [
-				"./content/media",
+				"content/media",
 			],
 		},
 	},

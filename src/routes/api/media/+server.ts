@@ -18,7 +18,7 @@ function getMIMEType(filePath: string): string {
 }
 
 export async function GET({ params }: { params: string[] }): Promise<Response> {
-    const filePath = `./content/media/${params[0]}`;
+    const filePath = `content/media/${params[0]}`;
     const file = await fs.readFile(filePath);
     if (!file) {
         return new Response('File not found', { status: 404 });
