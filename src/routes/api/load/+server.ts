@@ -6,7 +6,7 @@ import type { HTMLImgAttributes } from "svelte/elements";
 import { setResponse } from "@sveltejs/kit/node";
 
 const POSTS_PATH = "content/posts/";
-const MEDIA_PATH = "content/media/";
+const MEDIA_PATH = "api/media/";
 
 function isURLAbsolute(url: string): boolean {
     try {
