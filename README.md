@@ -5,6 +5,8 @@ There are great alternatives with a lot more functionality but sometimes, all yo
 
 ## Installation
 
+![Container build action status](https://github.com/Itschotsch/blog/actions/workflows/docker-image.yml/badge.svg)
+
 To run the application using Docker Compose:
 ```bash
 sudo docker compose up -d
