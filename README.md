@@ -43,6 +43,12 @@ images:
 ```
 Images referenced with relative paths such as `example.png` in the example above should be placed in `content/media`.
 
+### Customisation & Styling
+
+In `content/configuration.yaml`, you can make some customisations:
+- `title`: The title of your blog, which is displayed at the very top of the page as well as on the tab.
+- `stylesheets`: A list of stylesheets to be used. These can be absolute URLs for CDNs or relative URLs for CSS files placed in `content/style`.
+
 ## Development
 
 This application is written in SvelteKit / Svelte 5.

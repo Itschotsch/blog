@@ -16,6 +16,7 @@
     // Load blog posts
     let data: APILoadResponse = $state({
         title: "",
+        stylesheets: [],
         posts: [],
     });
     onMount(async () => {
@@ -37,19 +38,12 @@
 
 <svelte:head>
     <title>{data.title}</title>
+    {#each data.stylesheets as stylesheet}
+        <link rel="stylesheet" type="text/css" href={stylesheet} />
+    {/each}
 </svelte:head>
 
-<div class="container">
-    <div class="section">
-        <h1 class="title">{data.title}</h1>
-    </div>
-    {#each data.posts as post}
-        <BlogPost {post} />
-    {/each}
-</div>
-
-<style lang="css">
-    :global(html) {
-        background-color: var(--bulma-background);
-    }
-</style>
+<h1 class="page-title">{data.title}</h1>
+{#each data.posts as post}
+    <BlogPost {post} />
+{/each}

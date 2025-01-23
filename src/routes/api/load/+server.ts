@@ -5,6 +5,7 @@ import type { BlogPostData } from "../../+page.svelte";
 import type { HTMLImgAttributes } from "svelte/elements";
 import { setResponse } from "@sveltejs/kit/node";
 
+const STYLE_PATH = "api/style/";
 const POSTS_PATH = "content/posts/";
 const MEDIA_PATH = "api/media/";
 
@@ -19,6 +20,7 @@ function isURLAbsolute(url: string): boolean {
 
 export type APILoadResponse = {
     title: string;
+    stylesheets: string[];
     posts: BlogPostData[];
 };
 
@@ -26,6 +28,7 @@ export async function GET() {
     // Load blog configuration from content/configuration.yaml
     let configuration: {
         title: string;
+        stylesheets: string[];
     } = yaml.parse(fs.readFileSync("content/configuration.yaml", "utf-8"));
 
     // Read all files in /content/posts
@@ -94,6 +97,12 @@ export async function GET() {
 
     const response: APILoadResponse = {
         title: configuration.title,
+        stylesheets: configuration.stylesheets.map((stylesheet: string): string => {
+            if (!isURLAbsolute(stylesheet)) {
+                return STYLE_PATH + stylesheet;
+            }
+            return stylesheet;
+        }),
         posts: posts,
     };
 

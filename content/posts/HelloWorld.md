@@ -5,6 +5,9 @@ images:
   - src: https://picsum.photos/1500/1000
     alt: Example image
     title: Example image
+  - src: https://picsum.photos/1500/1000
+    alt: Another example image
+    title: Another example image
 ---
 
 *Hello*, **World**!
