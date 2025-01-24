@@ -28,8 +28,10 @@ export async function GET() {
     let configuration: BlogConfiguration = loadConfiguration();
 
     // Read all files in /content/posts
-    const files = fs.readdirSync(POSTS_PATH);
-    files.splice(files.indexOf(".gitkeep"), 1);
+    const files = fs.readdirSync(POSTS_PATH) || [];
+    if (files.includes(".gitkeep")) {
+        files.splice(files.indexOf(".gitkeep"), 1);
+    }
 
     // Example file:
     // ---
