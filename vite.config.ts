@@ -1,8 +1,21 @@
 import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vite';
+import { viteStaticCopy } from 'vite-plugin-static-copy';
 
 export default defineConfig({
-	plugins: [sveltekit(), cssHMR(), yamlHMR()],
+	plugins: [
+		sveltekit(),
+		cssHMR(),
+		yamlHMR(),
+		viteStaticCopy({
+			targets: [
+				{
+					src: 'content',
+					dest: '.',
+				}
+			]
+		}),
+	],
 	server: {
 		fs: {
 			allow: [
