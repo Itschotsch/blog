@@ -123,6 +123,16 @@ body {
 .post-content {
     font-size: 1.2rem;
     text-align: justify;
-    text-justify: inter-character;
+    text-justify: auto;
     hyphens: auto;
+}
+
+@media screen and (max-width: 768px) {
+    .post-content {
+        font-size: 1rem;
+    }
+}
+
+.post-content a {
+    text-decoration: underline;
 }
