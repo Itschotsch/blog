@@ -30,3 +30,4 @@ content/media/*
 !content/media/.gitkeep
 content/style/*
 !content/style/.gitkeep
+!content/style/default.css
