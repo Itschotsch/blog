@@ -119,3 +119,10 @@ body {
     letter-spacing: -0.075em;
     opacity: 0.5;
 }
+
+.post-content {
+    font-size: 1.2rem;
+    text-align: justify;
+    text-justify: inter-character;
+    hyphens: auto;
+}

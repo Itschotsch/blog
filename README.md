@@ -49,6 +49,7 @@ Images referenced with relative paths such as `example.png` in the example above
 
 In `content/configuration.yaml`, you can make some customisations:
 - `title`: The title of your blog, which is displayed at the very top of the page as well as on the tab.
+- `language`: The language code of your blog, which is used in the `<html lang="%lang%">` tag and affects the text hyphenation.
 - `stylesheets`: A list of stylesheets to be used. These can be absolute URLs for CDNs or relative URLs for CSS files placed in `content/style`.
 
 ## Development

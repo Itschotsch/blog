@@ -2,10 +2,12 @@ import fs from "fs";
 import yaml from "yaml";
 
 const DEFAULT_BLOG_TITLE = "Blog";
+const DEFAULT_BLOG_LANGUAGE = "en";
 const DEFAULT_STYLESHEETS = ["default.css"];
 
 export type BlogConfiguration = {
     title: string;
+    language: string;
     stylesheets: string[];
 }
 
@@ -15,6 +17,7 @@ export function loadConfiguration(): BlogConfiguration {
     if (!configuration) {
         configuration = {
             title: DEFAULT_BLOG_TITLE,
+            language: DEFAULT_BLOG_LANGUAGE,
             stylesheets: DEFAULT_STYLESHEETS,
         };
     }
