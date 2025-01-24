@@ -44,6 +44,8 @@
 </svelte:head>
 
 <h1 class="page-title">{data.title}</h1>
-{#each data.posts as post}
-    <BlogPost {post} />
-{/each}
+<div class="posts">
+    {#each data.posts as post}
+        <BlogPost {post} />
+    {/each}
+</div>

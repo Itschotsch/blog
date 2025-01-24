@@ -1,6 +1,7 @@
 /* Colors */
 :root {
     --background-color: #eee;
+    --media-background-color: #e4e4e4;
     --card-color: #e8e8e8;
     --text-color: #111;
 }
@@ -8,6 +9,7 @@
 @media (prefers-color-scheme: dark) {
     :root {
         --background-color: #111;
+        --media-background-color: #141414;
         --card-color: #181818;
         --text-color: #eee;
     }
@@ -17,18 +19,26 @@ html,
 body {
     background-color: var(--background-color);
     color: var(--text-color);
+    min-height: 100vh;
+}
+
+.slide-media {
+    background-color: var(--media-background-color);
 }
 
 /* Spacing */
 .page-title {
     font-size: 2rem;
-    margin-top: 2rem;
-    margin-bottom: 2rem;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
 }
 
-.page-title+.blog-post,
-.blog-post+.blog-post {
-    margin-top: 1rem;
+.posts {
+    display: flex;
+    flex-direction: column;
+}
+
+.blog-post {
     margin-bottom: 1rem;
 }
 
@@ -52,6 +62,12 @@ body {
 .post-datetime {
     flex-basis: min-content;
     margin-left: 1rem;
+}
+
+.slide-media {
+    display: flex !important;
+    justify-content: space-evenly;
+    align-items: center;
 }
 
 /* Responsive width */

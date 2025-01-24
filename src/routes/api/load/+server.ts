@@ -3,14 +3,11 @@ import { marked } from "marked";
 import yaml from "yaml";
 import type { BlogPostData } from "../../+page.svelte";
 import type { HTMLImgAttributes } from "svelte/elements";
-import { setResponse } from "@sveltejs/kit/node";
+import { loadConfiguration, type BlogConfiguration } from "$lib/server/configuration";
 
-const STYLE_PATH = "api/style/";
 const POSTS_PATH = "content/posts/";
 const MEDIA_PATH = "api/media/";
-
-const DEFAULT_BLOG_TITLE = "Blog";
-const DEFAULT_STYLESHEETS = ["default.css"];
+const STYLE_PATH = "api/style/";
 
 function isURLAbsolute(url: string): boolean {
     try {
@@ -28,23 +25,7 @@ export type APILoadResponse = {
 };
 
 export async function GET() {
-    // Load blog configuration from content/configuration.yaml
-    let configuration: {
-        title: string;
-        stylesheets: string[];
-    } = yaml.parse(fs.readFileSync("content/configuration.yaml", "utf-8"));
-    if (!configuration) {
-        configuration = {
-            title: DEFAULT_BLOG_TITLE,
-            stylesheets: DEFAULT_STYLESHEETS,
-        };
-    }
-    if (!configuration.title) {
-        configuration.title = DEFAULT_BLOG_TITLE;
-    }
-    if (!configuration.stylesheets) {
-        configuration.stylesheets = DEFAULT_STYLESHEETS;
-    }
+    let configuration: BlogConfiguration = loadConfiguration();
 
     // Read all files in /content/posts
     const files = fs.readdirSync(POSTS_PATH);
@@ -59,8 +40,9 @@ export async function GET() {
     //     alt: Example image
     //     title: Example image
     // ---
-
+    //
     // *Hello*, **World**!
+    //
 
     // Parse each file's frontmatter (YAML)
     const posts = await Promise.all(files.map(async (fileName: string): Promise<BlogPostData> => {
@@ -112,8 +94,8 @@ export async function GET() {
     });
 
     const response: APILoadResponse = {
-        title: configuration.title || DEFAULT_BLOG_TITLE,
-        stylesheets: (configuration.stylesheets || DEFAULT_STYLESHEETS).map((stylesheet: string): string => {
+        title: configuration.title,
+        stylesheets: (configuration.stylesheets).map((stylesheet: string): string => {
             if (!isURLAbsolute(stylesheet)) {
                 return STYLE_PATH + stylesheet;
             }
