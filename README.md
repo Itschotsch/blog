@@ -3,6 +3,8 @@
 This is a simple blog service that just works.
 There are great alternatives with a lot more functionality but sometimes, all you need is a simple service that serves Markdown files in the style of a blog.
 
+![Screenshot](./documentation/media/blog-screenshot.png)
+
 ## Installation
 
 ![Container build action status](https://github.com/Itschotsch/blog/actions/workflows/docker-image.yml/badge.svg)
