@@ -43,6 +43,9 @@ export async function GET({ params }: { params: { [key: string]: string } }) {
         if (!params["filename"]) {
             return new Response("No file specified", { status: 400 });
         }
+        if (params["filename"] == ".gitkeep") {
+            return new Response("File not found", { status: 404 });
+        }
         if (!fs.existsSync(`./content/media/${params["filename"]}`)) {
             return new Response("File not found", { status: 404 });
         }

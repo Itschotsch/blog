@@ -9,6 +9,9 @@ const STYLE_PATH = "api/style/";
 const POSTS_PATH = "content/posts/";
 const MEDIA_PATH = "api/media/";
 
+const DEFAULT_BLOG_TITLE = "Blog";
+const DEFAULT_STYLESHEETS = ["default.css"];
+
 function isURLAbsolute(url: string): boolean {
     try {
         new URL(url);
@@ -30,9 +33,22 @@ export async function GET() {
         title: string;
         stylesheets: string[];
     } = yaml.parse(fs.readFileSync("content/configuration.yaml", "utf-8"));
+    if (!configuration) {
+        configuration = {
+            title: DEFAULT_BLOG_TITLE,
+            stylesheets: DEFAULT_STYLESHEETS,
+        };
+    }
+    if (!configuration.title) {
+        configuration.title = DEFAULT_BLOG_TITLE;
+    }
+    if (!configuration.stylesheets) {
+        configuration.stylesheets = DEFAULT_STYLESHEETS;
+    }
 
     // Read all files in /content/posts
     const files = fs.readdirSync(POSTS_PATH);
+    files.splice(files.indexOf(".gitkeep"), 1);
 
     // Example file:
     // ---
@@ -96,8 +112,8 @@ export async function GET() {
     });
 
     const response: APILoadResponse = {
-        title: configuration.title,
-        stylesheets: configuration.stylesheets.map((stylesheet: string): string => {
+        title: configuration.title || DEFAULT_BLOG_TITLE,
+        stylesheets: (configuration.stylesheets || DEFAULT_STYLESHEETS).map((stylesheet: string): string => {
             if (!isURLAbsolute(stylesheet)) {
                 return STYLE_PATH + stylesheet;
             }

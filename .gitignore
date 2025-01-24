@@ -24,5 +24,9 @@ vite.config.ts.timestamp-*
 
 # Blog
 content/posts/*
-!content/posts/HelloWorld.md
+!content/posts/.gitkeep
+!content/posts/HelloWorld*.md
 content/media/*
+!content/media/.gitkeep
+content/style/*
+!content/style/.gitkeep
