@@ -1,5 +1,7 @@
 import fs from "fs";
 
+const MEDIA_PATH = "./content/media/";
+
 function getMIMEType(filePath: string): string {
     const ext = filePath.split(".").pop();
     switch (ext) {
@@ -46,13 +48,14 @@ export async function GET({ params }: { params: { [key: string]: string } }) {
         if (params["filename"] == ".gitkeep") {
             return new Response("File not found", { status: 404 });
         }
-        if (!fs.existsSync(`./content/media/${params["filename"]}`)) {
+        if (!fs.existsSync(MEDIA_PATH + params["filename"])) {
             return new Response("File not found", { status: 404 });
         }
-        const file = fs.readFileSync(`./content/media/${params["filename"]}`);
+        const file = fs.readFileSync(MEDIA_PATH + params["filename"]);
         return new Response(file, {
             headers: {
                 "Content-Type": getMIMEType(params["filename"]),
+                "Content-Disposition": "inline",
             },
         });
     } catch (e) {

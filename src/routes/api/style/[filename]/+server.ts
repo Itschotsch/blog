@@ -1,6 +1,7 @@
 import fs from "fs";
 
-// params is dictionary
+const STYLE_PATH = "./content/style/";
+
 export async function GET({ params }: { params: { [key: string]: string } }) {
     try {
         if (!params["filename"]) {
@@ -9,10 +10,10 @@ export async function GET({ params }: { params: { [key: string]: string } }) {
         if (params["filename"] == ".gitkeep") {
             return new Response("File not found", { status: 404 });
         }
-        if (!fs.existsSync(`./content/style/${params["filename"]}`)) {
+        if (!fs.existsSync(STYLE_PATH + params["filename"])) {
             return new Response("File not found", { status: 404 });
         }
-        const file = fs.readFileSync(`./content/style/${params["filename"]}`);
+        const file = fs.readFileSync(STYLE_PATH + params["filename"]);
         return new Response(file, {
             headers: {
                 "Content-Type": "text/css",
