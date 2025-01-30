@@ -9,6 +9,15 @@ There are great alternatives with a lot more functionality but sometimes, all yo
 
 ![Container build action status](https://github.com/Itschotsch/blog/actions/workflows/docker-image.yml/badge.svg)
 
+### From the GitHub Container Registry
+
+To run the application using Docker:
+```bash
+sudo docker run -d -p 4173:4173 -v $(pwd)/content:/app/content -e NODE_ENV=production -e HOST=0.0.0.0 ghcr.io/itschotsch/blog:latest
+```
+
+### From source
+
 To run the application using Docker Compose:
 ```bash
 sudo docker compose up -d
