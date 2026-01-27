@@ -24,13 +24,28 @@ export type APILoadResponse = {
     posts: BlogPostData[];
 };
 
-export async function GET() {
+export async function GET({ url }: { url: URL }) {
     let configuration: BlogConfiguration = loadConfiguration();
 
-    // Read all files in /content/posts
-    const files = fs.readdirSync(POSTS_PATH) || [];
-    if (files.includes(".gitkeep")) {
-        files.splice(files.indexOf(".gitkeep"), 1);
+    const postname = url.searchParams.get("postname");
+
+    let files: string[] = [];
+
+    if (postname) {
+        // Prevent directory traversal
+        const safePostname = postname.replace(/^.*[\\\/]/, '');
+
+        // Check if file exists before trying to read it
+        if (fs.existsSync(POSTS_PATH + safePostname)) {
+            files = [safePostname];
+        } else {
+            files = [];
+        }
+    } else {
+        files = fs.readdirSync(POSTS_PATH) || [];
+        if (files.includes(".gitkeep")) {
+            files.splice(files.indexOf(".gitkeep"), 1);
+        }
     }
 
     // Example file:
