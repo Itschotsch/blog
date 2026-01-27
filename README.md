@@ -13,7 +13,7 @@ There are great alternatives with a lot more functionality but sometimes, all yo
 
 To run the application using Docker:
 ```bash
-sudo docker run -d -p 4173:4173 -v $(pwd)/content:/app/content -e NODE_ENV=production -e HOST=0.0.0.0 ghcr.io/itschotsch/blog:latest
+sudo docker run -d -p 3000:3000 -v $(pwd)/content:/app/content -e NODE_ENV=production -e HOST=0.0.0.0 ghcr.io/itschotsch/blog:latest
 ```
 
 ### From source
@@ -26,12 +26,12 @@ sudo docker compose up -d
 To run the application using Docker:
 ```bash
 sudo docker build -t blog .
-sudo docker run -d -p 4173:4173 -v $(pwd)/content:/app/content -e NODE_ENV=production -e HOST=0.0.0.0 blog
+sudo docker run -d -p 3000:3000 -v $(pwd)/content:/app/content -e NODE_ENV=production -e HOST=0.0.0.0 blog
 ```
 
-To run the application using NPM:
+To run the application using PNPM:
 ```bash
-npm run build && npm run preview
+pnpm build && pnpm preview
 ```
 
 ## Usage
@@ -65,16 +65,16 @@ In `content/configuration.yaml`, you can make some customisations:
 
 This application is written in SvelteKit / Svelte 5.
 
-Install the dependencies with `npm install` (or `pnpm install` or `yarn`) and start a development server:
+Install the dependencies with `pnpm install` and start a development server:
 
 ```bash
-npm run dev
+pnpm dev
 ```
 
 To build a production version of the app:
 
 ```bash
-npm run build
+pnpm build
 ```
 
-You can preview the production build with `npm run preview`.
+You can preview the production build with `pnpm preview`.
