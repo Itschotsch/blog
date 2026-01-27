@@ -1,4 +1,9 @@
+url: "localhost"
 title: "My Blog"
+author:
+  name: "Anonymous"
+  email: "anonymous@myblog.ch"
+description: "A blog."
 language: "en"
 stylesheets:
-  - default.css
+  - "default.css"
