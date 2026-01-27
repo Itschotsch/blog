@@ -136,3 +136,15 @@ body {
 .post-content a {
     text-decoration: underline;
 }
+
+.post-content blockquote {
+    /* Italic, line left of quote */
+    font-style: italic;
+    border-left: 0.15rem solid var(--text-color);
+    padding-left: 1rem;
+    margin-left: 0.5rem;
+    margin-right: 1rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
