@@ -133,6 +133,10 @@ body {
     }
 }
 
+.post-content p + p {
+    margin-top: 0.5rem;
+}
+
 .post-content a {
     text-decoration: underline;
 }
