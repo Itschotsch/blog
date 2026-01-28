@@ -102,15 +102,15 @@ export async function getPosts(postnameFilter?: string): Promise<BlogPostData[]>
         let dateVal = metadata.datetime || fs.statSync(POSTS_PATH + fileName).mtime;
         const date = new Date(dateVal);
 
-        // Handle status: If metadata is set, default to draft. Otherwise, set to published.
+        // Handle status:
+        // If the metadata are not configured, default to published.
+        // Otherwise, if the metadata contain a status, use it.
+        // Otherwise, default to draft.
         let status: BlogPostStatus = BlogPostStatus.Published;
-        if (metadata.status) {
-            const metadataStatus = String(metadata.status).toLowerCase();
-            if (Object.values(BlogPostStatus).includes(metadataStatus as BlogPostStatus)) {
-                status = metadataStatus as BlogPostStatus;
-            } else {
-                console.warn(`Invalid status "${metadata.status}" for post "${fileName}". Defaulting to "${status}".`);
-            }
+        if (Object.keys(metadata).length === 0) {
+            status = BlogPostStatus.Published;
+        } else {
+            status = metadata.status || BlogPostStatus.Draft;
         }
 
         return {
