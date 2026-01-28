@@ -7,12 +7,19 @@ import type { HTMLImgAttributes } from "svelte/elements";
 const POSTS_PATH = "content/posts/";
 const MEDIA_PATH = "api/media/";
 
+export enum BlogPostStatus {
+    Draft = "draft",
+    Published = "published",
+    Archived = "archived",
+}
+
 export type BlogPostData = {
     slug: string; // The filename, needed for linking
     title: string | undefined;
     content: string;
     images: HTMLImgAttributes[];
     date: Date;
+    status: BlogPostStatus;
 };
 
 function isURLAbsolute(url: string): boolean {
@@ -30,7 +37,7 @@ export async function getPosts(postnameFilter?: string): Promise<BlogPostData[]>
     // Determine which files to read
     if (postnameFilter) {
         // Sanitise: Prevent directory traversal
-        const safeName = postnameFilter.replace(/^.*[\\\/]/, '');
+        const safeName = postnameFilter.replace(/^.*[\\\/]/, "");
         // Check if file exists before trying to read it
         if (fs.existsSync(POSTS_PATH + safeName)) {
             files = [safeName];
@@ -71,17 +78,12 @@ export async function getPosts(postnameFilter?: string): Promise<BlogPostData[]>
         
         const metadata = yaml.parse(frontmatter) || {};
         const parsedContent = await marked.parse(rawContent);
-        
-        // Handle Date
-        // Priority: Frontmatter date > file modification time > current time
-        let dateVal = metadata.datetime || fs.statSync(POSTS_PATH + fileName).mtime;
-        const date = new Date(dateVal);
 
-        // Handle Images
+        // Handle images
         let images: HTMLImgAttributes[] = metadata.images || [];
         images = images.map((image: any) => {
             // In case an image is not of type HTMLImgAttributes, fix it
-            if (typeof image === 'string') {
+            if (typeof image === "string") {
                 image = { src: image };
             }
             if (!image.src) {
@@ -95,15 +97,35 @@ export async function getPosts(postnameFilter?: string): Promise<BlogPostData[]>
             return image;
         });
 
+        // Handle date
+        // Priority: Frontmatter date > file modification time > current time
+        let dateVal = metadata.datetime || fs.statSync(POSTS_PATH + fileName).mtime;
+        const date = new Date(dateVal);
+
+        // Handle status: If metadata is set, default to draft. Otherwise, set to published.
+        let status: BlogPostStatus = BlogPostStatus.Published;
+        if (metadata.status) {
+            const metadataStatus = String(metadata.status).toLowerCase();
+            if (Object.values(BlogPostStatus).includes(metadataStatus as BlogPostStatus)) {
+                status = metadataStatus as BlogPostStatus;
+            } else {
+                console.warn(`Invalid status "${metadata.status}" for post "${fileName}". Defaulting to "${status}".`);
+            }
+        }
+
         return {
             slug: fileName,
             title: metadata.title,
             content: parsedContent,
             images: images,
             date: date,
+            status: status,
         };
     }));
 
+    // Only keep published posts
+    const publishedPosts = posts.filter(post => post.status === BlogPostStatus.Published);
+
     // Sort the posts by date in descending order
-    return posts.sort((a, b) => b.date.getTime() - a.date.getTime());
+    return publishedPosts.sort((a, b) => b.date.getTime() - a.date.getTime());
 }
