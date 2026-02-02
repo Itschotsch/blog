@@ -43,10 +43,8 @@ export async function getPosts(postnameFilter?: string): Promise<BlogPostData[]>
             files = [safeName];
         }
     } else {
-        files = fs.readdirSync(POSTS_PATH) || [];
-        if (files.includes(".gitkeep")) {
-            files.splice(files.indexOf(".gitkeep"), 1);
-        }
+        // Read directory and filter out any file starting with '.'
+        files = (fs.readdirSync(POSTS_PATH) || []).filter(file => !file.startsWith('.'));
     }
 
     // Example file:
